@@ -53,6 +53,13 @@ namespace Api
 
             app.UseWebAppConfigure();
 
+            app.UseCors(config =>
+            {
+                config
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
 
             app.UseSwagger(c =>
             {

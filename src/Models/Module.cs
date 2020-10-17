@@ -6,5 +6,8 @@ namespace Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public DateTime LastEditTime { get; set; }
+        
+        public ModuleGeneralInformation GeneralInformation { get; set; }
     }
 }

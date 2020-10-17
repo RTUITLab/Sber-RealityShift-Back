@@ -1,0 +1,36 @@
+name: $(BuildID)-$(Build.SourceBranchName)
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+stages:
+- stage: build
+  displayName: BuildServices
+  jobs:
+  - job: buildApi
+    steps:
+    - task: Cake@2
+      inputs:
+        script: 'build.cake'
+        target: 'PublishApi'
+        verbosity: 'Verbose'
+    - publish: deploy
+      artifact: api-build
+- stage: packInDocker
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: packApi
+    steps:
+      - download: current
+        artifact: api-build
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'rtuitlab connection by admin'
+          repository: 'rtuitlab/sber-realityshift-api'
+          command: 'buildAndPush'
+          Dockerfile: '$(Pipeline.Workspace)/api-build/Dockerfile'
+          buildContext: '$(Pipeline.Workspace)/api-build'
+          tags: |
+            $(Build.BuildId)
+            latest
+  

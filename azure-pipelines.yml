@@ -60,5 +60,5 @@ stages:
                 inputs:
                   sshEndpoint: 'swarm manager'
                   runOptions: 'commands'
-                  commands: 'docker service update --image rtuitlab/sber-realityshift_api:$(Build.BuildId) sber-realityshift_api'
+                  commands: 'docker service update --image rtuitlab/sber-realityshift-api:$(Build.BuildId) sber-realityshift_api'
                   readyTimeout: '20000'

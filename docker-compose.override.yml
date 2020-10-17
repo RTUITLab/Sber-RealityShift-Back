@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+    api:
+      build: ${BACK_CONTEXT:-.}/deploy
+      ports:
+        - 5501:5501
+      environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - ConnectionStrings__SberDbContext=User ID=postgres;Password=password;Server=postgres;Port=5432;Database=sber-realityshift-dev-db;Integrated Security=true;
+    
+    postgres:
+        image: postgres:13-alpine
+        environment:
+            - POSTGRES_PASSWORD=password
+        ports:
+            - 5432:5432
+        restart: on-failure
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"

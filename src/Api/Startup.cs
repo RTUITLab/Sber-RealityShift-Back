@@ -2,14 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Services.Configure;
+using Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RTUITLab.AspNetCore.Configure.Configure;
+using RTUITLab.AspNetCore.Configure.Invokations;
 
 namespace Api
 {
@@ -26,6 +31,12 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<SberDbContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("SberDbContext"), n => n.MigrationsAssembly("Api")));
+
+            services.AddWebAppConfigure()
+                .AddTransientConfigure<ApplyMigration>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,7 +47,7 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseWebAppConfigure();
 
             app.UseRouting();
 

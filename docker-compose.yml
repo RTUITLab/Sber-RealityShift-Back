@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  api:
+    image: rtuitlab/sber-realityshift-api
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 200M
+        reservations:
+          cpus: '0.05'
+          memory: 20M
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "200k"
+          max-file: "10"

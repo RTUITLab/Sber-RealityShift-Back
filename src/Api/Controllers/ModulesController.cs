@@ -76,11 +76,14 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ModuleCompactResponse>> PostModule(CreateEditModuleRequest request)
+        public async Task<ActionResult<ModuleCompactResponse>> PostModule(
+            [FromBody] CreateEditModuleRequest request,
+            [FromHeader(Name = "UserName")] string username = "server_noname")
         {
             var module = new Module
             {
-                LastEditTime = DateTime.UtcNow
+                LastEditTime = DateTime.UtcNow,
+                Creator = username
             };
             mapper.Map(request, module);
             dbContext.Modules.Add(module);

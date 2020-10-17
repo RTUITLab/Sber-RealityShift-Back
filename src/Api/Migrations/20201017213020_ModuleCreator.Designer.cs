@@ -3,68 +3,23 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(SberDbContext))]
-    partial class SberDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201017213020_ModuleCreator")]
+    partial class ModuleCreator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            modelBuilder.Entity("Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Answer")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AnswerAuthor")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("Answered")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Author")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime?>("Done")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ModuleId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Part")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("PathToField")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ModuleId");
-
-                    b.ToTable("Comment");
-                });
 
             modelBuilder.Entity("Models.Module", b =>
                 {
@@ -143,15 +98,6 @@ namespace Api.Migrations
                     b.HasKey("ModuleId", "Value");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("Models.Comment", b =>
-                {
-                    b.HasOne("Models.Module", "Module")
-                        .WithMany("Comments")
-                        .HasForeignKey("ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Models.ModuleTeacherInstructions", b =>

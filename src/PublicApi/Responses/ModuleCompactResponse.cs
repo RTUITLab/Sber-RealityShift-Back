@@ -9,5 +9,6 @@ namespace PublicApi.Responses
         public int Id { get; set; }
         public string Title { get; set; }
         public DateTime LastEditTime { get; set; }
+        public string Creator { get; set; }
     }
 }

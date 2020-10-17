@@ -9,6 +9,7 @@ namespace Models
         public int Id { get; set; }
         public string Title { get; set; }
         public DateTime LastEditTime { get; set; }
+        public string Creator { get; set; }
 
         public ModuleVisibility Visibility { get; set; }
         public int ClassLevel { get; set; }
@@ -19,5 +20,6 @@ namespace Models
         public string ProblemQuestion { get; set; }
 
         public ModuleTeacherInstructions TeacherInstructions { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

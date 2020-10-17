@@ -10,6 +10,11 @@ namespace PublicApi.Responses
         public int Id { get; set; }
         public string Title { get; set; }
         public DateTime LastEditTime { get; set; }
+        public string Creator { get; set; }
+
+        public PartInfo GeneralPart { get; set; }
+        public PartInfo TeacherInstructionsPart { get; set; }
+
 
         public ModuleVisibility Visibility { get; set; }
         public int ClassLevel { get; set; }

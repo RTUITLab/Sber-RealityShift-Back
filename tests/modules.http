@@ -1,5 +1,5 @@
-# @baseurl = http://10.11.162.180:5501
-@baseurl = https://realityshift-sber.rtuitlab.ru
+@baseurl = http://127.0.0.1:5501
+# @baseurl = https://realityshift-sber.rtuitlab.ru
 
 GET {{baseurl}}/api/modules/
 
@@ -41,4 +41,17 @@ Content-Type: application/json
     ],
     "BasicIdea": "Sime basic data",
     "ProblemQuestion": "Some problem description"
+}
+
+###
+GET {{baseurl}}/api/modules/1/teacherInstructions
+
+###
+PUT {{baseurl}}/api/modules/1/teacherInstructions
+Content-Type: application/json
+
+{
+  "generalMeaning": "Meaning",
+  "exercisesByLessons": "by lesson",
+  "challenges": "challenges"
 }

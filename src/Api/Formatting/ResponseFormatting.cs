@@ -18,6 +18,8 @@ namespace Api.Formatting
             CreateMap<ModuleGeneralInformation, GeneralInfoResponse>()
                 .ForMember(r => r.Tags, map => map.MapFrom(r => r.Tags.Select(tl => tl.Tag)));
 
+            CreateMap<ModuleTeacherInstructions, TeacherInstructionsResponse>();
+
         }
     }
 }

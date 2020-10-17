@@ -9,5 +9,6 @@ namespace Models
         public DateTime LastEditTime { get; set; }
         
         public ModuleGeneralInformation GeneralInformation { get; set; }
+        public ModuleTeacherInstructions TeacherInstructions { get; set; }
     }
 }

@@ -4,11 +4,10 @@ using System.Text;
 
 namespace Models.Links
 {
-    public class GeneralInfoToLink
+    public class GeneralInfoTag
     {
         public int GeneralInformationId { get; set; }
         public ModuleGeneralInformation GeneralInformation { get; set; }
-        public int TagId { get; set; }
-        public ModuleTag Tag { get; set; }
+        public string Tag { get; set; }
     }
 }

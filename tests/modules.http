@@ -1,4 +1,5 @@
 @baseurl = http://10.11.162.180:5501
+# @baseurl = https://realityshift-sber.rtuitlab.ru
 
 GET {{baseurl}}/api/modules/
 
@@ -22,3 +23,6 @@ Content-Type: application/json
 {
     "title": "edited Title"
 }
+
+###
+GET {{baseurl}}/api/modules/1/general

@@ -13,20 +13,15 @@ namespace Database
 
         public DbSet<Module> Modules { get; set; }
         public DbSet<ModuleGeneralInformation> GeneralInformation { get; set; }
-        public DbSet<ModuleTag> Tags { get; set; }
+        public DbSet<GeneralInfoTag> GeneralInfoTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ModuleTag>(e =>
+            modelBuilder.Entity<GeneralInfoTag>(e =>
             {
-                e.HasIndex(mt => mt.Value).IsUnique();
-            });
-
-            modelBuilder.Entity<GeneralInfoToLink>(e =>
-            {
-                e.HasKey(gtl => new { gtl.GeneralInformationId, gtl.TagId });
+                e.HasKey(git => new { git.GeneralInformationId, git.Tag });
             });
         }
     }

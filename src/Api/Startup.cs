@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Services.Configure;
+using AutoMapper;
 using Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +36,7 @@ namespace Api
             services.AddDbContext<SberDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("SberDbContext"), n => n.MigrationsAssembly("Api")));
 
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen();
 

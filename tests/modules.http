@@ -1,0 +1,24 @@
+@baseurl = http://10.11.162.180:5501
+
+GET {{baseurl}}/api/modules/
+
+
+###
+GET {{baseurl}}/api/modules/1
+
+###
+POST {{baseurl}}/api/modules/
+Content-Type: application/json
+
+{
+    "title": "new Title"
+}
+
+###
+
+PUT {{baseurl}}/api/modules/2
+Content-Type: application/json
+
+{
+    "title": "edited Title"
+}

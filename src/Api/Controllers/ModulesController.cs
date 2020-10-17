@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Database;
 using Models;
+using PublicApi.Responses;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using PublicApi.Requests;
 
 namespace Api.Controllers
 {
@@ -15,24 +19,31 @@ namespace Api.Controllers
     public class ModulesController : ControllerBase
     {
         private readonly SberDbContext _context;
+        private readonly IMapper mapper;
 
-        public ModulesController(SberDbContext context)
+        public ModulesController(SberDbContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Modules
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Module>>> GetModules()
+        public async Task<ActionResult<IEnumerable<ModuleCompactResponse>>> GetModules()
         {
-            return await _context.Modules.ToListAsync();
+            return await _context.Modules
+                .ProjectTo<ModuleCompactResponse>(mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         // GET: api/Modules/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Module>> GetModule(int id)
         {
-            var @module = await _context.Modules.FindAsync(id);
+            var @module = await _context
+                .Modules
+                .Include(m => m.GeneralInformation)
+                .SingleOrDefaultAsync(m => m.Id == id);
 
             if (@module == null)
             {
@@ -46,14 +57,15 @@ namespace Api.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutModule(int id, Module @module)
+        public async Task<IActionResult> PutModule(int id, CreateEditModuleRequest request)
         {
-            if (id != @module.Id)
+            var module = new Module
             {
-                return BadRequest();
-            }
-
-            _context.Entry(@module).State = EntityState.Modified;
+                Id = id,
+                LastEditTime = DateTime.UtcNow,
+                Title = request.Title
+            };
+            _context.Entry(module).State = EntityState.Modified;
 
             try
             {
@@ -78,12 +90,17 @@ namespace Api.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Module>> PostModule(Module @module)
+        public async Task<ActionResult<ModuleCompactResponse>> PostModule(CreateEditModuleRequest moduleRequest)
         {
-            _context.Modules.Add(@module);
+            var module = new Module
+            {
+                LastEditTime = DateTime.UtcNow,
+                Title = moduleRequest.Title
+            };
+            _context.Modules.Add(module);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetModule", new { id = @module.Id }, @module);
+            return CreatedAtAction("GetModule", new { id = module.Id }, mapper.Map<ModuleCompactResponse>(module));
         }
 
         // DELETE: api/Modules/5

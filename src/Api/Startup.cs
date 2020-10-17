@@ -35,6 +35,10 @@ namespace Api
             services.AddDbContext<SberDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("SberDbContext"), n => n.MigrationsAssembly("Api")));
 
+
+            services.AddSwaggerGen();
+
+
             services.AddWebAppConfigure()
                 .AddTransientConfigure<ApplyMigration>();
         }
@@ -48,6 +52,20 @@ namespace Api
             }
 
             app.UseWebAppConfigure();
+
+
+            app.UseSwagger(c =>
+            {
+                c.RouteTemplate = "api/swagger/{documentName}/swagger.json";
+            });
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("swagger/v1/swagger.json", "Sber API V1");
+                c.RoutePrefix = "api";
+            });
 
             app.UseRouting();
 

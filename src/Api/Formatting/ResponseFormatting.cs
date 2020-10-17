@@ -15,8 +15,8 @@ namespace Api.Formatting
             CreateMap<Module, ModuleCompactResponse>();
             CreateMap<Module, ModuleResponse>();
 
-            CreateMap<ModuleGeneralInformation, GeneralInfoResponse>()
-                .ForMember(r => r.Tags, map => map.MapFrom(r => r.Tags.Select(tl => tl.Tag)));
+            CreateMap<Module, ModuleResponse>()
+                .ForMember(r => r.Tags, map => map.MapFrom(r => r.Tags.Select(tl => tl.Value)));
 
             CreateMap<ModuleTeacherInstructions, TeacherInstructionsResponse>();
 

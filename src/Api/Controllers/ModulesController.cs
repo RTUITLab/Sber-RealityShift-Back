@@ -18,12 +18,12 @@ namespace Api.Controllers
     [ApiController]
     public class ModulesController : ControllerBase
     {
-        private readonly SberDbContext _context;
+        private readonly SberDbContext dbContext;
         private readonly IMapper mapper;
 
         public ModulesController(SberDbContext context, IMapper mapper)
         {
-            _context = context;
+            dbContext = context;
             this.mapper = mapper;
         }
 
@@ -31,7 +31,7 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ModuleCompactResponse>>> GetModules()
         {
-            return await _context.Modules
+            return await dbContext.Modules
                 .ProjectTo<ModuleCompactResponse>(mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -40,9 +40,9 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ModuleResponse>> GetModule(int id)
         {
-            var module = await _context
+            var module = await dbContext
                 .Modules
-                .Include(m => m.GeneralInformation)
+                .ProjectTo<ModuleResponse>(mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
             if (module == null)
@@ -50,52 +50,41 @@ namespace Api.Controllers
                 return NotFound();
             }
 
-            return mapper.Map<ModuleResponse>(module);
+            return module;
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutModule(int id, CreateEditModuleRequest request)
         {
-            var module = new Module
-            {
-                Id = id,
-                LastEditTime = DateTime.UtcNow,
-                Title = request.Title
-            };
-            _context.Entry(module).State = EntityState.Modified;
+            var findedModule = await this.dbContext.Modules
+                .Include(i => i.Tags)
+                .SingleOrDefaultAsync(i => i.Id == id);
 
-            try
+            if (findedModule == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound("module not found");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ModuleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            
+            
+            dbContext.Tags.RemoveRange(findedModule.Tags);
+            mapper.Map(request, findedModule);
+            findedModule.LastEditTime = DateTime.UtcNow;
+
+            await dbContext.SaveChangesAsync();
 
             return NoContent();
         }
 
-        // POST: api/Modules
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ModuleCompactResponse>> PostModule(CreateEditModuleRequest moduleRequest)
+        public async Task<ActionResult<ModuleCompactResponse>> PostModule(CreateEditModuleRequest request)
         {
             var module = new Module
             {
-                LastEditTime = DateTime.UtcNow,
-                Title = moduleRequest.Title
+                LastEditTime = DateTime.UtcNow
             };
-            _context.Modules.Add(module);
-            await _context.SaveChangesAsync();
+            mapper.Map(request, module);
+            dbContext.Modules.Add(module);
+            await dbContext.SaveChangesAsync();
 
             return CreatedAtAction("GetModule", new { id = module.Id }, mapper.Map<ModuleCompactResponse>(module));
         }
@@ -104,21 +93,16 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ModuleResponse>> DeleteModule(int id)
         {
-            var module = await _context.Modules.FindAsync(id);
+            var module = await dbContext.Modules.FindAsync(id);
             if (module == null)
             {
                 return NotFound();
             }
 
-            _context.Modules.Remove(module);
-            await _context.SaveChangesAsync();
+            dbContext.Modules.Remove(module);
+            await dbContext.SaveChangesAsync();
 
             return mapper.Map<ModuleResponse>(module);
-        }
-
-        private bool ModuleExists(int id)
-        {
-            return _context.Modules.Any(e => e.Id == id);
         }
     }
 }

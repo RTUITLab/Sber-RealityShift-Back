@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models;
-using Models.Links;
 using System;
 
 namespace Database
@@ -12,17 +11,16 @@ namespace Database
         }
 
         public DbSet<Module> Modules { get; set; }
-        public DbSet<ModuleGeneralInformation> GeneralInformation { get; set; }
         public DbSet<ModuleTeacherInstructions> TeacherInstructions { get; set; }
-        public DbSet<GeneralInfoTag> GeneralInfoTags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<GeneralInfoTag>(e =>
+            modelBuilder.Entity<Tag>(e =>
             {
-                e.HasKey(git => new { git.GeneralInformationId, git.Tag });
+                e.HasKey(git => new { git.ModuleId, git.Value });
             });
         }
     }

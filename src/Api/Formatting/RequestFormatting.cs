@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Models;
-using Models.Links;
+using PublicApi.Requests;
 using PublicApi.Responses;
 using System;
 using System.Collections.Generic;
@@ -13,8 +13,8 @@ namespace Api.Formatting
     {
         public RequestFormatting()
         {
-            CreateMap<GeneralInfoEditRequest, ModuleGeneralInformation>()
-                .ForMember(mgi => mgi.Tags, map => map.MapFrom(gier => gier.Tags.Select(t => new GeneralInfoTag { Tag = t })));
+            CreateMap<CreateEditModuleRequest, Module>()
+                .ForMember(mgi => mgi.Tags, map => map.MapFrom(gier => gier.Tags.Select(t => new Tag { Value = t })));
 
             CreateMap<TeacherInstructionsEditRequest, ModuleTeacherInstructions>();
         }

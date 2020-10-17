@@ -5,15 +5,23 @@ GET {{baseurl}}/api/modules/
 
 
 ###
-GET {{baseurl}}/api/modules/1
+GET {{baseurl}}/api/modules/2
 
 ###
 POST {{baseurl}}/api/modules/
 Content-Type: application/json
 
 {
-    "title": "new Title"
-}
+    "title": "new  Title",
+    "Visibility": 1,
+    "ClassLevel": 6,
+    "Course": "Математика",
+    "LaborIntensity":1.6,
+    "Tags": [
+        "Default", "Tags"
+    ],
+    "BasicIdea": "Sime basic data",
+    "ProblemQuestion": "Some problem description"}
 
 ###
 
@@ -21,17 +29,7 @@ PUT {{baseurl}}/api/modules/2
 Content-Type: application/json
 
 {
-    "title": "edited Title"
-}
-
-###
-GET {{baseurl}}/api/modules/1/general
-
-###
-PUT {{baseurl}}/api/modules/1/general
-Content-Type: application/json
-
-{
+    "title": "edited Title",
     "Visibility": 1,
     "ClassLevel": 6,
     "Course": "Математика",
@@ -42,6 +40,7 @@ Content-Type: application/json
     "BasicIdea": "Sime basic data",
     "ProblemQuestion": "Some problem description"
 }
+
 
 ###
 GET {{baseurl}}/api/modules/1/teacherInstructions
@@ -55,3 +54,6 @@ Content-Type: application/json
   "exercisesByLessons": "by lesson",
   "challenges": "challenges"
 }
+
+###
+GET {{baseurl}}/api/tags

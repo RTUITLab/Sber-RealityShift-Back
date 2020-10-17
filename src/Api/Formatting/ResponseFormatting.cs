@@ -13,6 +13,7 @@ namespace Api.Formatting
         public ResponseFormatting()
         {
             CreateMap<Module, ModuleCompactResponse>();
+            CreateMap<Module, ModuleResponse>();
 
             CreateMap<ModuleGeneralInformation, GeneralInfoResponse>()
                 .ForMember(r => r.Tags, map => map.MapFrom(r => r.Tags.Select(tl => tl.Tag)));

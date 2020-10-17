@@ -38,19 +38,19 @@ namespace Api.Controllers
 
         // GET: api/Modules/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Module>> GetModule(int id)
+        public async Task<ActionResult<ModuleResponse>> GetModule(int id)
         {
-            var @module = await _context
+            var module = await _context
                 .Modules
                 .Include(m => m.GeneralInformation)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
-            if (@module == null)
+            if (module == null)
             {
                 return NotFound();
             }
 
-            return @module;
+            return mapper.Map<ModuleResponse>(module);
         }
 
         // PUT: api/Modules/5
@@ -105,18 +105,18 @@ namespace Api.Controllers
 
         // DELETE: api/Modules/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Module>> DeleteModule(int id)
+        public async Task<ActionResult<ModuleResponse>> DeleteModule(int id)
         {
-            var @module = await _context.Modules.FindAsync(id);
-            if (@module == null)
+            var module = await _context.Modules.FindAsync(id);
+            if (module == null)
             {
                 return NotFound();
             }
 
-            _context.Modules.Remove(@module);
+            _context.Modules.Remove(module);
             await _context.SaveChangesAsync();
 
-            return @module;
+            return mapper.Map<ModuleResponse>(module);
         }
 
         private bool ModuleExists(int id)

@@ -61,10 +61,13 @@ namespace Api.Controllers
 
         [HttpPost("accept/{id:int}")]
         public async Task<ActionResult<CommentResponse>> Complete(
+            int moduleId,
             int id,
             [FromHeader(Name = "UserName")] string username = "server_noname")
         {
-            var comment = await dbContext.Comments.SingleOrDefaultAsync(c => c.Id == id);
+            var comment = await dbContext.Comments
+                .Where(c => c.ModuleId == moduleId)
+                .SingleOrDefaultAsync(c => c.Id == id);
 
             if (comment == null)
             {
@@ -87,11 +90,14 @@ namespace Api.Controllers
 
         [HttpPost("reject/{id:int}")]
         public async Task<ActionResult<CommentResponse>> Reject(
+            int moduleId,
             int id,
             [FromBody] string message,
             [FromHeader(Name = "UserName")] string username = "server_noname")
         {
-            var comment = await dbContext.Comments.SingleOrDefaultAsync(c => c.Id == id);
+            var comment = await dbContext.Comments
+                .Where(c => c.ModuleId == moduleId)
+                .SingleOrDefaultAsync(c => c.Id == id);
 
             if (comment == null)
             {
@@ -114,11 +120,11 @@ namespace Api.Controllers
         }
 
         [HttpPost("done/{id:int}")]
-        public async Task<ActionResult<CommentResponse>> Done(
-            int id,
-            [FromHeader(Name = "UserName")] string username = "server_noname")
+        public async Task<ActionResult<CommentResponse>> Done(int moduleId, int id)
         {
-            var comment = await dbContext.Comments.SingleOrDefaultAsync(c => c.Id == id);
+            var comment = await dbContext.Comments
+                .Where(c => c.ModuleId == moduleId)
+                .SingleOrDefaultAsync(c => c.Id == id);
 
             if (comment == null)
             {

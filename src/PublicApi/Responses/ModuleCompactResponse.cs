@@ -10,5 +10,6 @@ namespace PublicApi.Responses
         public string Title { get; set; }
         public DateTime LastEditTime { get; set; }
         public string Creator { get; set; }
+        public List<string> Tags { get; set; }
     }
 }

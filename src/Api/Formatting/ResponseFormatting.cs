@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Models;
 using PublicApi.Responses;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace Api.Formatting
                 .ForMember(r => r.TeacherInstructionsPart, map => map.MapFrom(m => new PartInfo { Filled = m.TeacherInstructions != null, ContainsError = m.Comments.Where(c => c.Part == ModulePart.TeacherInstructions).Where(c => c.Status != CommentStatus.Done).Any() }));
 
             CreateMap<ModuleTeacherInstructions, TeacherInstructionsResponse>();
+
+            CreateMap<Comment, CommentResponse>();
 
         }
     }

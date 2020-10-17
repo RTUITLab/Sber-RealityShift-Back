@@ -17,6 +17,8 @@ namespace Api.Formatting
                 .ForMember(mgi => mgi.Tags, map => map.MapFrom(gier => gier.Tags.Select(t => new Tag { Value = t })));
 
             CreateMap<TeacherInstructionsEditRequest, ModuleTeacherInstructions>();
+
+            CreateMap<CreateCommentRequest, Comment>();
         }
     }
 }

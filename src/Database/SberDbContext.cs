@@ -13,6 +13,7 @@ namespace Database
         public DbSet<Module> Modules { get; set; }
         public DbSet<ModuleTeacherInstructions> TeacherInstructions { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

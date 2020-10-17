@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Models
+namespace PublicApi.Responses
 {
-    public class Comment
+    public class CommentResponse
     {
         public int Id { get; set; }
         public string Message { get; set; }
@@ -18,8 +18,7 @@ namespace Models
         public string Answer { get; set; }
         public string AnswerAuthor { get; set; }
 
-        public int ModuleId { get; set; }
-        public Module Module { get; set; }
+
         public ModulePart Part { get; set; }
         public string PathToField { get; set; }
     }

@@ -1,15 +1,17 @@
 @baseurl = http://127.0.0.1:5501
 # @baseurl = https://realityshift-sber.rtuitlab.ru
 
+### modules list
 GET {{baseurl}}/api/modules/
 
 
-###
+### module one
 GET {{baseurl}}/api/modules/2
 
-###
+### create module
 POST {{baseurl}}/api/modules/
 Content-Type: application/json
+UserName: Developer
 
 {
     "title": "new  Title",
@@ -23,8 +25,7 @@ Content-Type: application/json
     "BasicIdea": "Sime basic data",
     "ProblemQuestion": "Some problem description"}
 
-###
-
+### edit module
 PUT {{baseurl}}/api/modules/2
 Content-Type: application/json
 
@@ -42,10 +43,10 @@ Content-Type: application/json
 }
 
 
-###
+### get teacher instructions of module
 GET {{baseurl}}/api/modules/1/teacherInstructions
 
-###
+### edit teacher instructions of module
 PUT {{baseurl}}/api/modules/1/teacherInstructions
 Content-Type: application/json
 
@@ -55,5 +56,31 @@ Content-Type: application/json
   "challenges": "challenges"
 }
 
-###
+### get all tags
 GET {{baseurl}}/api/tags
+
+### get comments of module
+GET {{baseurl}}/api/modules/1/comments
+
+
+### create comment for module
+POST {{baseurl}}/api/modules/1/comments
+Content-Type: application/json
+UserName: Reviewer
+
+{
+    "message": "Все плохо, переделывай",
+    "part": "General",
+    "pathToField": "basicIdea"
+}
+
+### accept comment
+POST {{baseurl}}/api/modules/1/comments/accept/2
+Content-Type: application/json
+UserName: Developer
+
+{
+    "message": "Все плохо, переделывай",
+    "part": "General",
+    "pathToField": "basicIdea"
+}

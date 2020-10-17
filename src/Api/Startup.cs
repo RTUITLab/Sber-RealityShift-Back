@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Api.Formatting;
 using Api.Services.Configure;
 using AutoMapper;
 using Database;
@@ -37,6 +38,7 @@ namespace Api
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
                 });
 
             services.AddDbContext<SberDbContext>(options =>

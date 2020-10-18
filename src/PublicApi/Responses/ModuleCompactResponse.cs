@@ -14,6 +14,6 @@ namespace PublicApi.Responses
         public List<string> Tags { get; set; }
         public ModuleStatus Status { get; set; }
         public int ClassLevel { get; set; }
-        public int CourceId { get; set; }
+        public int CourseId { get; set; }
     }
 }

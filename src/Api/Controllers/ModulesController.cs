@@ -53,6 +53,35 @@ namespace Api.Controllers
             return module;
         }
 
+        [HttpPut("{id}/done")]
+        public async Task<IActionResult> DoneModule(int id)
+        {
+            var findedModule = await this.dbContext.Modules
+                .Include(i => i.Tags)
+                .Include(i => i.TeacherInstructions)
+                .Include(i => i.Comments)
+                .SingleOrDefaultAsync(i => i.Id == id);
+
+            if (findedModule == null)
+            {
+                return NotFound("module not found");
+            }
+            if (findedModule.TeacherInstructions == null)
+            {
+                return Conflict($"{nameof(findedModule.TeacherInstructions)} not exists");
+            }
+            if (findedModule.Comments.Where(c => c.Status != Shared.CommentStatus.Done).Any())
+            {
+                return Conflict($"Module have unresolved comments");
+            }
+            findedModule.Done = true;
+            findedModule.LastEditTime = DateTime.UtcNow;
+
+            await dbContext.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutModule(int id, CreateEditModuleRequest request)
         {
@@ -74,6 +103,7 @@ namespace Api.Controllers
 
             return NoContent();
         }
+
 
         [HttpPost]
         public async Task<ActionResult<ModuleCompactResponse>> PostModule(

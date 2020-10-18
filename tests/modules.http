@@ -6,7 +6,7 @@ GET {{baseurl}}/api/modules/
 
 
 ### module one
-GET {{baseurl}}/api/modules/2
+GET {{baseurl}}/api/modules/3
 
 ### create module
 POST {{baseurl}}/api/modules/
@@ -79,12 +79,20 @@ UserName: Reviewer
 }
 
 ### accept comment
-POST {{baseurl}}/api/modules/1/comments/accept/2
+POST {{baseurl}}/api/modules/1/comments/2/accept
+UserName: Developer
+
+
+### reject comment
+POST {{baseurl}}/api/modules/1/comments/3/reject
 Content-Type: application/json
 UserName: Developer
 
-{
-    "message": "Все плохо, переделывай",
-    "part": "General",
-    "pathToField": "basicIdea"
-}
+"Совершенно не согласен"
+
+### done comment
+POST {{baseurl}}/api/modules/1/comments/1/done
+UserName: Developer
+
+### Done module
+PUT {{baseurl}}/api/modules/1/done

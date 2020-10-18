@@ -14,7 +14,12 @@ namespace Api.Formatting
         public ResponseFormatting()
         {
             CreateMap<Module, ModuleCompactResponse>()
-                .ForMember(r => r.Tags, map => map.MapFrom(r => r.Tags.Select(tl => tl.Value)));
+                .ForMember(r => r.Tags, map => map.MapFrom(r => r.Tags.Select(tl => tl.Value)))
+                .ForMember(r => r.Status, map => map.MapFrom(r => 
+                                                                r.TeacherInstructions == null ? ModuleStatus.MaterialsNotComplete : 
+                                                                r.Comments.Where(c => c.Status != CommentStatus.Done).Any() ? ModuleStatus.MakingCorrection : 
+                                                                r.Done ? ModuleStatus.MaterialsReady :
+                                                                ModuleStatus.MaterialsChecking));
 
             CreateMap<Module, ModuleResponse>()
                 .ForMember(r => r.Tags, map => map.MapFrom(r => r.Tags.Select(tl => tl.Value)))

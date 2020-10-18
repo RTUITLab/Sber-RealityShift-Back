@@ -10,6 +10,8 @@ namespace Models
         public string Title { get; set; }
         public DateTime LastEditTime { get; set; }
         public string Creator { get; set; }
+        public bool Done { get; set; }
+
 
         public ModuleVisibility Visibility { get; set; }
         public int ClassLevel { get; set; }

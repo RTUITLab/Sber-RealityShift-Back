@@ -59,7 +59,7 @@ namespace Api.Controllers
             return Ok(mapper.Map<CommentResponse>(comment));
         }
 
-        [HttpPost("accept/{id:int}")]
+        [HttpPost("{id:int}/accept")]
         public async Task<ActionResult<CommentResponse>> Complete(
             int moduleId,
             int id,
@@ -88,7 +88,7 @@ namespace Api.Controllers
             return mapper.Map<CommentResponse>(comment);
         }
 
-        [HttpPost("reject/{id:int}")]
+        [HttpPost("{id:int}/reject")]
         public async Task<ActionResult<CommentResponse>> Reject(
             int moduleId,
             int id,
@@ -119,7 +119,7 @@ namespace Api.Controllers
             return mapper.Map<CommentResponse>(comment);
         }
 
-        [HttpPost("done/{id:int}")]
+        [HttpPost("{id:int}/done")]
         public async Task<ActionResult<CommentResponse>> Done(int moduleId, int id)
         {
             var comment = await dbContext.Comments

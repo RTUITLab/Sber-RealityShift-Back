@@ -33,6 +33,7 @@ namespace Api.Controllers
         {
             return await dbContext.Comments
                 .Where(c => c.ModuleId == moduleId)
+                .Where(c => c.Status != Shared.CommentStatus.Done)
                 .ProjectTo<CommentResponse>(mapper.ConfigurationProvider)
                 .ToListAsync();
         }

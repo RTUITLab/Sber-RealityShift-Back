@@ -6,7 +6,7 @@ GET {{baseurl}}/api/modules/
 
 
 ### module one
-GET {{baseurl}}/api/modules/3
+GET {{baseurl}}/api/modules/2
 
 ### create module
 POST {{baseurl}}/api/modules/
@@ -22,6 +22,7 @@ UserName: Developer
     "Tags": [
         "Default", "Tags"
     ],
+    "courseId": 1,
     "BasicIdea": "Sime basic data",
     "ProblemQuestion": "Some problem description"}
 
@@ -38,6 +39,7 @@ Content-Type: application/json
     "Tags": [
         "Tag1", "Another"
     ],
+    "CourseId": 2,
     "BasicIdea": "Sime basic data",
     "ProblemQuestion": "Some problem description"
 }
@@ -60,7 +62,7 @@ Content-Type: application/json
 GET {{baseurl}}/api/tags
 
 
-### get all tags
+### get all courses
 GET {{baseurl}}/api/courses
 
 ### get comments of module

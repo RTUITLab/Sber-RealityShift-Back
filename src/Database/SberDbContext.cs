@@ -14,6 +14,7 @@ namespace Database
         public DbSet<ModuleTeacherInstructions> TeacherInstructions { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Course> Courses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,11 @@ namespace Database
             modelBuilder.Entity<Tag>(e =>
             {
                 e.HasKey(git => new { git.ModuleId, git.Value });
+            });
+
+            modelBuilder.Entity<Course>(e =>
+            {
+                e.HasIndex(c => c.Title).IsUnique();
             });
         }
     }

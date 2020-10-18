@@ -13,6 +13,8 @@ namespace Api.Formatting
     {
         public ResponseFormatting()
         {
+            CreateMap<Course, CourseResponse>();
+
             CreateMap<Module, ModuleCompactResponse>()
                 .ForMember(r => r.Tags, map => map.MapFrom(r => r.Tags.Select(tl => tl.Value)))
                 .ForMember(r => r.Status, map => map.MapFrom(r => 

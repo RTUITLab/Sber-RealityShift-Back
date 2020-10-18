@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Api.Formatting;
+using Api.Models.Options;
 using Api.Services.Configure;
 using AutoMapper;
 using Database;
@@ -34,6 +35,8 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SeedDataOptions>(Configuration.GetSection(nameof(SeedDataOptions)));
+
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -50,7 +53,8 @@ namespace Api
 
 
             services.AddWebAppConfigure()
-                .AddTransientConfigure<ApplyMigration>();
+                .AddTransientConfigure<ApplyMigration>(0)
+                .AddTransientConfigure<SeedDatabase>(1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

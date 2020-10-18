@@ -87,6 +87,7 @@ namespace Api.Controllers
         {
             var findedModule = await this.dbContext.Modules
                 .Include(i => i.Tags)
+                .Include(i => i.Course)
                 .SingleOrDefaultAsync(i => i.Id == id);
 
             if (findedModule == null)
@@ -94,6 +95,10 @@ namespace Api.Controllers
                 return NotFound("module not found");
             }
             
+            if (!await dbContext.Courses.AnyAsync(c => c.Id == request.CourseId))
+            {
+                return NotFound("course not found");
+            }
             
             dbContext.Tags.RemoveRange(findedModule.Tags);
             mapper.Map(request, findedModule);
@@ -110,6 +115,12 @@ namespace Api.Controllers
             [FromBody] CreateEditModuleRequest request,
             [FromHeader(Name = "UserName")] string username = "server_noname")
         {
+
+            if (!await dbContext.Courses.AnyAsync(c => c.Id == request.CourseId))
+            {
+                return NotFound("course not found");
+            }
+
             var module = new Module
             {
                 LastEditTime = DateTime.UtcNow,

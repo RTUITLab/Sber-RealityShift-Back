@@ -14,7 +14,7 @@ namespace Api.Formatting
         public RequestFormatting()
         {
             CreateMap<CreateEditModuleRequest, Module>()
-                .ForMember(mgi => mgi.Tags, map => map.MapFrom(gier => gier.Tags.Select(t => new Tag { Value = t })));
+                .ForMember(mgi => mgi.Tags, map => map.MapFrom(gier => gier.Tags.Where(t => !string.IsNullOrEmpty(t)).Select(t => new Tag { Value = t })));
 
             CreateMap<TeacherInstructionsEditRequest, ModuleTeacherInstructions>();
 

@@ -59,6 +59,10 @@ Content-Type: application/json
 ### get all tags
 GET {{baseurl}}/api/tags
 
+
+### get all tags
+GET {{baseurl}}/api/courses
+
 ### get comments of module
 GET {{baseurl}}/api/modules/1/comments
 

@@ -13,5 +13,7 @@ namespace PublicApi.Responses
         public string Creator { get; set; }
         public List<string> Tags { get; set; }
         public ModuleStatus Status { get; set; }
+        public int ClassLevel { get; set; }
+        public int CourceId { get; set; }
     }
 }
